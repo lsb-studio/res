@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAF8F5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="랑상블">
+<title>랑상블 · 연습실 예약</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #FAF8F5;
+    --bg-elevated: #FFFFFF;
+    --ink: #2A2724;
+    --ink-soft: #6B6560;
+    --ink-faint: #A8A19A;
+    --line: #E8E2DA;
+    --line-soft: #F0EBE3;
+    --accent: #3B2F4A;          /* deep aubergine */
+    --accent-soft: #5A4A6E;
+    --danger: #8B3A3A;
+
+    /* room colors — desaturated, warm */
+    --room-1-bg: #E8EDE6;       /* sage */
+    --room-1-ink: #4A5847;
+    --room-2-bg: #EDE6D9;       /* sand */
+    --room-2-ink: #6B5B3E;
+    --room-3-bg: #DCE3E8;       /* dusty blue */
+    --room-3-ink: #3F4E5C;
+
+    --serif: 'Cormorant Garamond', 'Noto Serif KR', serif;
+    --sans: 'Inter', 'Noto Sans KR', -apple-system, sans-serif;
+
+    --radius: 6px;
+    --radius-lg: 10px;
+    --shadow-sm: 0 1px 2px rgba(42, 39, 36, 0.04);
+    --shadow-md: 0 4px 16px rgba(42, 39, 36, 0.08);
+    --shadow-lg: 0 12px 40px rgba(42, 39, 36, 0.12);
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  input, select {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+  }
+
+  /* ============================================
+     LOGIN SCREEN
+     ============================================ */
+  #login-screen {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(ellipse at top, rgba(59, 47, 74, 0.04) 0%, transparent 60%),
+      var(--bg);
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+  }
+
+  .login-mark {
+    font-family: var(--serif);
+    font-size: 14px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 28px;
+  }
+
+  .login-title {
+    font-family: var(--serif);
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 1;
+    margin: 0 0 12px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .login-subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-bottom: 56px;
+  }
+
+  .login-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 auto 40px;
+    width: 60%;
+  }
+  .login-divider::before,
+  .login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .login-divider span {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--ink-faint);
+    font-size: 14px;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .login-form input {
+    width: 100%;
+    padding: 16px 18px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .login-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 47, 74, 0.08);
+  }
+
+  .login-form input::placeholder {
+    color: var(--ink-faint);
+  }
+
+  .login-button {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: #FFFFFF;
+    border-radius: var(--radius);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .login-button:hover {
+    background: var(--accent-soft);
+  }
+  .login-button:active {
+    transform: scale(0.98);
+  }
+
+  .login-error {
+    color: var(--danger);
+    font-size: 14px;
+    margin-top: 12px;
+    min-height: 20px;
+  }
+
+  .login-footer {
+    margin-top: 32px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .link-btn {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .link-btn:hover {
+    background: rgba(59, 47, 74, 0.06);
+  }
+
+  #signup-screen {
+    display: none;
+    min-height: 100vh;
+    min-height: 100dvh;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(ellipse at top, rgba(59, 47, 74, 0.04) 0%, transparent 60%),
+      var(--bg);
+  }
+  #signup-screen .login-subtitle {
+    margin-bottom: 40px;
+  }
+  #signup-screen .login-title {
+    font-size: 56px;
+  }
+
+  /* ============================================
+     APP LAYOUT
+     ============================================ */
+  #app-screen {
+    display: none;
+    min-height: 100vh;
+    min-height: 100dvh;
+    flex-direction: column;
+  }
+
+  .app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-elevated);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .header-brand {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .header-user {
+    font-family: var(--serif);
+    font-style: italic;
+  }
+  .header-user.is-admin::after {
+    content: ' · 관리자';
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .logout-btn {
+    color: var(--ink-faint);
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    transition: color 0.2s, background 0.2s;
+  }
+  .logout-btn:hover {
+    color: var(--ink);
+    background: var(--line-soft);
+  }
+
+  /* ---------- toolbar ---------- */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    gap: 12px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line-soft);
+    flex-wrap: wrap;
+  }
+
+  .toolbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    color: var(--ink-soft);
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-btn:hover {
+    background: var(--line-soft);
+    color: var(--ink);
+  }
+
+  .today-btn {
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-elevated);
+    font-size: 13px;
+    color: var(--ink-soft);
+    transition: all 0.2s;
+  }
+  .today-btn:hover {
+    border-color: var(--ink-soft);
+    color: var(--ink);
+  }
+
+  .toolbar-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink);
+    flex: 1;
+    text-align: center;
+    min-width: 0;
+  }
+
+  .view-switcher {
+    display: flex;
+    background: var(--line-soft);
+    border-radius: var(--radius);
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .view-btn {
+    padding: 7px 14px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .view-btn.active {
+    background: var(--bg-elevated);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .room-select-wrap {
+    display: none;
+    padding: 12px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line-soft);
+    align-items: center;
+    gap: 10px;
+  }
+  .room-select-wrap.visible {
+    display: flex;
+  }
+  .room-select-wrap label {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .room-select-wrap select {
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    background: var(--bg-elevated);
+    border-radius: var(--radius);
+    font-size: 14px;
+  }
+
+  /* ============================================
+     CALENDAR — DAY VIEW
+     ============================================ */
+  .calendar-wrap {
+    flex: 1;
+    overflow: auto;
+    background: var(--bg);
+  }
+
+  .day-grid {
+    display: grid;
+    grid-template-columns: 56px repeat(3, 1fr);
+    min-width: 100%;
+  }
+
+  .day-header-cell {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 8px;
+    text-align: center;
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--ink);
+    z-index: 5;
+  }
+
+  .day-header-cell.time-corner {
+    background: var(--bg);
+    border-right: 1px solid var(--line-soft);
+  }
+
+  .day-header-cell .room-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .time-label {
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-align: right;
+    padding: 2px 8px 0 0;
+    border-right: 1px solid var(--line-soft);
+    height: 36px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .slot {
+    height: 36px;
+    border-bottom: 1px solid var(--line-soft);
+    border-right: 1px solid var(--line-soft);
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .slot:hover {
+    background: rgba(59, 47, 74, 0.04);
+  }
+  .slot.half-hour {
+    border-bottom: 1px dashed var(--line-soft);
+  }
+
+  .reservation {
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    border-radius: var(--radius);
+    padding: 6px 8px;
+    font-size: 12px;
+    line-height: 1.3;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+    z-index: 2;
+    border-left: 3px solid;
+  }
+  .reservation:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  .reservation.room-1 {
+    background: var(--room-1-bg);
+    color: var(--room-1-ink);
+    border-left-color: var(--room-1-ink);
+  }
+  .reservation.room-2 {
+    background: var(--room-2-bg);
+    color: var(--room-2-ink);
+    border-left-color: var(--room-2-ink);
+  }
+  .reservation.room-3 {
+    background: var(--room-3-bg);
+    color: var(--room-3-ink);
+    border-left-color: var(--room-3-ink);
+  }
+  .reservation .res-name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .reservation .res-time {
+    font-size: 10px;
+    opacity: 0.75;
+    font-variant-numeric: tabular-nums;
+    margin-top: 1px;
+  }
+
+  /* ============================================
+     CALENDAR — WEEK VIEW
+     ============================================ */
+  .week-grid {
+    display: grid;
+    grid-template-columns: 56px repeat(7, minmax(80px, 1fr));
+    min-width: 100%;
+  }
+  .week-grid .day-header-cell {
+    font-size: 13px;
+    padding: 10px 4px;
+  }
+  .week-grid .day-header-cell .day-num {
+    display: block;
+    font-family: var(--serif);
+    font-size: 22px;
+    margin-top: 2px;
+  }
+  .week-grid .day-header-cell.is-today .day-num {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ============================================
+     CALENDAR — MONTH VIEW
+     ============================================ */
+  .month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: var(--line-soft);
+    border-top: 1px solid var(--line-soft);
+    border-left: 1px solid var(--line-soft);
+  }
+
+  .month-day-header {
+    background: var(--bg);
+    text-align: center;
+    padding: 12px 4px;
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+  }
+
+  .month-cell {
+    background: var(--bg-elevated);
+    min-height: 90px;
+    padding: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .month-cell:hover {
+    background: var(--line-soft);
+  }
+  .month-cell.other-month {
+    background: var(--bg);
+    color: var(--ink-faint);
+  }
+  .month-cell.is-today .month-day-num {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .month-day-num {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1;
+  }
+  .month-count {
+    font-size: 11px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .month-count .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  /* ============================================
+     MODAL
+     ============================================ */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(42, 39, 36, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-backdrop.visible {
+    display: flex;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.25s ease;
+    overflow: hidden;
+  }
+
+  .modal-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .modal-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.2;
+  }
+  .modal-subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .modal-body {
+    padding: 20px 24px;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+  .field:last-child {
+    margin-bottom: 0;
+  }
+  .field label {
+    display: block;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .field input,
+  .field select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-elevated);
+    transition: border-color 0.2s;
+  }
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .modal-footer {
+    padding: 16px 24px 24px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .btn {
+    padding: 11px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #FFFFFF;
+  }
+  .btn-primary:hover {
+    background: var(--accent-soft);
+  }
+  .btn-secondary {
+    background: var(--bg);
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+  .btn-secondary:hover {
+    color: var(--ink);
+    border-color: var(--ink-soft);
+  }
+  .btn-danger {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    margin-right: auto;
+  }
+  .btn-danger:hover {
+    background: var(--danger);
+    color: #FFFFFF;
+  }
+
+  .modal-error {
+    background: #FBF1F1;
+    color: var(--danger);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    margin-bottom: 14px;
+    display: none;
+  }
+  .modal-error.visible {
+    display: block;
+  }
+
+  .detail-row {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 14px;
+  }
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+  .detail-row .label {
+    width: 80px;
+    color: var(--ink-faint);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 2px;
+  }
+  .detail-row .value {
+    flex: 1;
+    color: var(--ink);
+  }
+
+  /* ============================================
+     LOADING & EMPTY STATES
+     ============================================ */
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-faint);
+    font-family: var(--serif);
+    font-style: italic;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 200;
+    pointer-events: none;
+  }
+  .toast.visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 767px) {
+    .toolbar {
+      padding: 12px 14px;
+      gap: 8px;
+    }
+    .toolbar-title {
+      font-size: 19px;
+      order: -1;
+      width: 100%;
+      text-align: center;
+      flex-basis: 100%;
+    }
+    .view-btn {
+      padding: 6px 11px;
+      font-size: 12px;
+    }
+    .day-grid {
+      grid-template-columns: 48px repeat(3, 1fr);
+    }
+    .day-header-cell {
+      font-size: 12px;
+      padding: 10px 4px;
+    }
+    .day-header-cell .room-dot {
+      display: block;
+      margin: 0 auto 4px;
+    }
+    .reservation {
+      font-size: 11px;
+      padding: 4px 6px;
+    }
+    .reservation .res-time {
+      display: none;
+    }
+    .month-cell {
+      min-height: 60px;
+      padding: 5px;
+    }
+    .month-day-num {
+      font-size: 14px;
+    }
+    .month-count {
+      font-size: 10px;
+    }
+    .month-day-header {
+      font-size: 11px;
+      padding: 8px 2px;
+    }
+    .header-brand {
+      font-size: 19px;
+    }
+    .login-title {
+      font-size: 52px;
+    }
+    .week-grid {
+      grid-template-columns: 48px repeat(7, minmax(70px, 1fr));
+    }
+  }
+
+  @media (min-width: 768px) {
+    .toolbar {
+      padding: 18px 28px;
+    }
+    .day-grid {
+      grid-template-columns: 72px repeat(3, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     LOGIN SCREEN
+     ============================================ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-mark">Studio</div>
+    <h1 class="login-title">랑상블</h1>
+    <p class="login-subtitle">L'Ensemble · Practice Room Reservation</p>
+
+    <div class="login-divider"><span>로그인</span></div>
+
+    <form class="login-form" id="login-form" autocomplete="off">
+      <input type="text" id="login-id" placeholder="아이디" autocomplete="off">
+      <input type="password" id="login-pw" placeholder="비밀번호" autocomplete="off">
+      <button type="submit" class="login-button">입장</button>
+      <div class="login-error" id="login-error"></div>
+    </form>
+
+    <div class="login-footer">
+      <span>아직 계정이 없으신가요?</span>
+      <button type="button" class="link-btn" id="goto-signup">회원가입</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     SIGNUP SCREEN
+     ============================================ -->
+<div id="signup-screen">
+  <div class="login-card">
+    <div class="login-mark">Studio</div>
+    <h1 class="login-title">랑상블</h1>
+    <p class="login-subtitle">회원가입</p>
+
+    <div class="login-divider"><span>Sign up</span></div>
+
+    <form class="login-form" id="signup-form" autocomplete="off">
+      <input type="text"  id="signup-name"  placeholder="이름" autocomplete="off">
+      <input type="email" id="signup-email" placeholder="이메일" autocomplete="off">
+      <input type="tel"   id="signup-phone" placeholder="휴대전화" autocomplete="off">
+      <input type="text"  id="signup-id"    placeholder="아이디" autocomplete="off">
+      <input type="password" id="signup-pw"  placeholder="비밀번호 (8자 이상)" autocomplete="off">
+      <input type="password" id="signup-pw2" placeholder="비밀번호 확인" autocomplete="off">
+      <button type="submit" class="login-button">가입하기</button>
+      <div class="login-error" id="signup-error"></div>
+    </form>
+
+    <div class="login-footer">
+      <span>이미 계정이 있으신가요?</span>
+      <button type="button" class="link-btn" id="goto-login">로그인</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     APP SCREEN
+     ============================================ -->
+<div id="app-screen">
+  <header class="app-header">
+    <div class="header-brand">랑상블</div>
+    <div class="header-right">
+      <span class="header-user" id="header-user"></span>
+      <button class="logout-btn" id="logout-btn">로그아웃</button>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="toolbar-nav">
+      <button class="nav-btn" id="prev-btn" aria-label="이전">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="today-btn" id="today-btn">오늘</button>
+      <button class="nav-btn" id="next-btn" aria-label="다음">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+    <div class="toolbar-title" id="toolbar-title">—</div>
+    <div class="view-switcher">
+      <button class="view-btn" data-view="month">월</button>
+      <button class="view-btn" data-view="week">주</button>
+      <button class="view-btn" data-view="day">일</button>
+    </div>
+  </div>
+
+  <div class="room-select-wrap" id="room-select-wrap">
+    <label for="room-select">표시할 연습실</label>
+    <select id="room-select"></select>
+  </div>
+
+  <div class="calendar-wrap" id="calendar-wrap">
+    <div class="loading">불러오는 중…</div>
+  </div>
+</div>
+
+<!-- ============================================
+     RESERVATION CREATE / EDIT MODAL
+     ============================================ -->
+<div class="modal-backdrop" id="create-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="create-modal-title">예약하기</h2>
+      <p class="modal-subtitle">Reserve a practice room</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-error" id="create-error"></div>
+      <div class="field">
+        <label for="field-name">학생 이름</label>
+        <input type="text" id="field-name" placeholder="이름을 입력하세요">
+      </div>
+      <div class="field">
+        <label for="field-room">연습실</label>
+        <select id="field-room"></select>
+      </div>
+      <div class="field">
+        <label for="field-date">날짜</label>
+        <input type="date" id="field-date">
+      </div>
+      <div class="field">
+        <label for="field-start">시작 시각</label>
+        <select id="field-start"></select>
+      </div>
+      <div class="field">
+        <label for="field-duration">사용 시간</label>
+        <select id="field-duration">
+          <option value="30">30분</option>
+          <option value="60">1시간</option>
+          <option value="90">1시간 30분</option>
+          <option value="120">2시간</option>
+          <option value="150">2시간 30분</option>
+          <option value="180">3시간</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="create-cancel">취소</button>
+      <button class="btn btn-primary" id="create-save">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     RESERVATION DETAIL MODAL
+     ============================================ -->
+<div class="modal-backdrop" id="detail-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="detail-name">—</h2>
+      <p class="modal-subtitle">Reservation details</p>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row">
+        <div class="label">연습실</div>
+        <div class="value" id="detail-room">—</div>
+      </div>
+      <div class="detail-row">
+        <div class="label">날짜</div>
+        <div class="value" id="detail-date">—</div>
+      </div>
+      <div class="detail-row">
+        <div class="label">시간</div>
+        <div class="value" id="detail-time">—</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="detail-delete">삭제</button>
+      <button class="btn btn-secondary" id="detail-close">닫기</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============================================
+     SCRIPT
+     ============================================ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import {
+  getFirestore, collection, query, where, onSnapshot,
+  Timestamp, doc, deleteDoc, addDoc,
+  getDocs, setDoc, getDoc
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+// ============================================
+// CONFIG — 여기를 수정하세요
+// ============================================
+
+// 1) Firebase 프로젝트 config
+const firebaseConfig = {
+  apiKey: "AIzaSyBP8VoukvoNpw66OKcxZ4k2g99R99Qe3H8",
+  authDomain: "studio-seton.firebaseapp.com",
+  projectId: "studio-seton",
+  storageBucket: "studio-seton.firebasestorage.app",
+  messagingSenderId: "933784109411",
+  appId: "1:933784109411:web:a786ccff8d3861485d5356",
+  measurementId: "G-X84JKRMQ3Z"
+};
+
+// 2) 로그인 정보 (공용 학생 계정 + 관리자 계정)
+const STUDENT_LOGIN = { id: "login", pw: "happyhappy" };
+const ADMIN_LOGIN   = { id: "admin", pw: "admin1234"  };
+
+// 3) 연습실 목록
+const ROOMS = [
+  { key: "upright",  name: "업라이트피아노", cls: "room-1", color: "#4A5847" },
+  { key: "medium",   name: "중간 소형",      cls: "room-2", color: "#6B5B3E" },
+  { key: "grand",    name: "그랜드피아노",   cls: "room-3", color: "#3F4E5C" },
+];
+
+// 4) 영업 시간 (24시간 표기)
+const OPEN_HOUR  = 7;   // 07:00 부터
+const CLOSE_HOUR = 23;  // 23:00 까지
+
+// ============================================
+// 이하 코드는 수정하지 않아도 됩니다
+// ============================================
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ---------- state ----------
+const state = {
+  user: null,           // { name, isAdmin }
+  view: "day",          // "day" | "week" | "month"
+  cursor: new Date(),   // current displayed date
+  reservations: [],     // visible reservations
+  unsubscribe: null,
+  weekRoomKey: ROOMS[0].key,
+};
+
+// ---------- DOM ----------
+const $ = (id) => document.getElementById(id);
+const loginScreen = $("login-screen");
+const signupScreen = $("signup-screen");
+const appScreen = $("app-screen");
+const calendarWrap = $("calendar-wrap");
+const toolbarTitle = $("toolbar-title");
+const headerUser = $("header-user");
+const roomSelectWrap = $("room-select-wrap");
+const roomSelect = $("room-select");
+
+function showLogin() {
+  loginScreen.style.display = "flex";
+  signupScreen.style.display = "none";
+  appScreen.style.display = "none";
+}
+function showSignup() {
+  loginScreen.style.display = "none";
+  signupScreen.style.display = "flex";
+  appScreen.style.display = "none";
+}
+
+// ---------- helpers ----------
+function pad(n) { return String(n).padStart(2, "0"); }
+function fmtTime(d) { return `${pad(d.getHours())}:${pad(d.getMinutes())}`; }
+function fmtDate(d) { return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+function fmtKDate(d) {
+  const days = ["일","월","화","수","목","금","토"];
+  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${days[d.getDay()]})`;
+}
+function startOfDay(d) {
+  const x = new Date(d); x.setHours(0,0,0,0); return x;
+}
+function endOfDay(d) {
+  const x = new Date(d); x.setHours(23,59,59,999); return x;
+}
+function startOfWeek(d) {
+  const x = startOfDay(d);
+  x.setDate(x.getDate() - x.getDay()); // Sunday
+  return x;
+}
+function endOfWeek(d) {
+  const s = startOfWeek(d);
+  const e = new Date(s);
+  e.setDate(e.getDate() + 6);
+  return endOfDay(e);
+}
+function startOfMonth(d) {
+  return new Date(d.getFullYear(), d.getMonth(), 1);
+}
+function endOfMonth(d) {
+  return endOfDay(new Date(d.getFullYear(), d.getMonth() + 1, 0));
+}
+function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+function addMonths(d, n) { const x = new Date(d); x.setMonth(x.getMonth()+n); return x; }
+function isSameDay(a, b) {
+  return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+}
+function roomByKey(k) { return ROOMS.find(r => r.key === k); }
+function roomByName(n) { return ROOMS.find(r => r.name === n); }
+
+function showToast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("visible");
+  setTimeout(() => t.classList.remove("visible"), 2400);
+}
+
+// ============================================
+// LOGIN
+// ============================================
+function tryAutoLogin() {
+  const saved = localStorage.getItem("rangsamble.user");
+  if (saved) {
+    try {
+      state.user = JSON.parse(saved);
+      enterApp();
+      return true;
+    } catch(e) {}
+  }
+  return false;
+}
+
+$("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = $("login-id").value.trim();
+  const pw = $("login-pw").value;
+  const errEl = $("login-error");
+  errEl.textContent = "";
+
+  // 1) 관리자 체크
+  if (id === ADMIN_LOGIN.id && pw === ADMIN_LOGIN.pw) {
+    state.user = { name: "관리자", userId: "__admin__", isAdmin: true, isShared: false };
+    localStorage.setItem("rangsamble.user", JSON.stringify(state.user));
+    enterApp();
+    return;
+  }
+
+  // 2) 공용 학생 계정 체크
+  if (id === STUDENT_LOGIN.id && pw === STUDENT_LOGIN.pw) {
+    state.user = { name: "공용 계정", userId: "__shared__", isAdmin: false, isShared: true };
+    localStorage.setItem("rangsamble.user", JSON.stringify(state.user));
+    enterApp();
+    return;
+  }
+
+  // 3) 가입한 회원 체크 (Firestore users 컬렉션)
+  try {
+    const userDoc = await getDoc(doc(db, "users", id));
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+      if (data.password === pw) {
+        state.user = {
+          name: data.name,
+          userId: id,
+          email: data.email,
+          phone: data.phone,
+          isAdmin: false,
+          isShared: false
+        };
+        localStorage.setItem("rangsamble.user", JSON.stringify(state.user));
+        enterApp();
+        return;
+      }
+    }
+    errEl.textContent = "아이디 또는 비밀번호가 올바르지 않습니다.";
+  } catch (err) {
+    console.error(err);
+    errEl.textContent = "로그인 중 오류가 발생했습니다.";
+  }
+});
+
+// ---------- 회원가입 ----------
+$("goto-signup").addEventListener("click", () => {
+  $("signup-error").textContent = "";
+  ["signup-name","signup-email","signup-phone","signup-id","signup-pw","signup-pw2"]
+    .forEach(k => $(k).value = "");
+  showSignup();
+});
+$("goto-login").addEventListener("click", showLogin);
+
+$("signup-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name  = $("signup-name").value.trim();
+  const email = $("signup-email").value.trim();
+  const phone = $("signup-phone").value.trim();
+  const id    = $("signup-id").value.trim();
+  const pw    = $("signup-pw").value;
+  const pw2   = $("signup-pw2").value;
+  const errEl = $("signup-error");
+  errEl.textContent = "";
+
+  // 검증
+  if (!name || !email || !phone || !id || !pw || !pw2) {
+    errEl.textContent = "모든 항목을 입력해주세요.";
+    return;
+  }
+  if (pw.length < 8) {
+    errEl.textContent = "비밀번호는 8자 이상이어야 합니다.";
+    return;
+  }
+  if (pw !== pw2) {
+    errEl.textContent = "비밀번호가 일치하지 않습니다.";
+    return;
+  }
+  if (!/^[a-zA-Z0-9_]+$/.test(id)) {
+    errEl.textContent = "아이디는 영문, 숫자, 밑줄(_)만 사용할 수 있습니다.";
+    return;
+  }
+  if (id === ADMIN_LOGIN.id || id === STUDENT_LOGIN.id) {
+    errEl.textContent = "사용할 수 없는 아이디입니다.";
+    return;
+  }
+
+  try {
+    // 중복 체크
+    const existing = await getDoc(doc(db, "users", id));
+    if (existing.exists()) {
+      errEl.textContent = "이미 사용 중인 아이디입니다.";
+      return;
+    }
+
+    // 저장
+    await setDoc(doc(db, "users", id), {
+      name, email, phone,
+      password: pw,
+      createdAt: Timestamp.now()
+    });
+
+    // 자동 로그인
+    state.user = {
+      name, userId: id, email, phone,
+      isAdmin: false, isShared: false
+    };
+    localStorage.setItem("rangsamble.user", JSON.stringify(state.user));
+    showToast("가입이 완료되었습니다");
+    enterApp();
+  } catch (err) {
+    console.error(err);
+    errEl.textContent = "가입 중 오류가 발생했습니다.";
+  }
+});
+
+$("logout-btn").addEventListener("click", () => {
+  localStorage.removeItem("rangsamble.user");
+  state.user = null;
+  if (state.unsubscribe) { state.unsubscribe(); state.unsubscribe = null; }
+  showLogin();
+  $("login-id").value = "";
+  $("login-pw").value = "";
+});
+
+function enterApp() {
+  loginScreen.style.display = "none";
+  signupScreen.style.display = "none";
+  appScreen.style.display = "flex";
+  headerUser.textContent = state.user.name;
+  headerUser.classList.toggle("is-admin", state.user.isAdmin);
+
+  // populate room select for week view
+  roomSelect.innerHTML = "";
+  ROOMS.forEach(r => {
+    const opt = document.createElement("option");
+    opt.value = r.key;
+    opt.textContent = r.name;
+    roomSelect.appendChild(opt);
+  });
+  roomSelect.value = state.weekRoomKey;
+
+  // populate create modal room select
+  const fr = $("field-room");
+  fr.innerHTML = "";
+  ROOMS.forEach(r => {
+    const opt = document.createElement("option");
+    opt.value = r.key;
+    opt.textContent = r.name;
+    fr.appendChild(opt);
+  });
+
+  // default view by screen width
+  state.view = window.innerWidth < 768 ? "day" : "week";
+  updateViewButtons();
+  subscribeAndRender();
+}
+
+// ============================================
+// FIRESTORE SUBSCRIPTION
+// ============================================
+function subscribeAndRender() {
+  if (state.unsubscribe) state.unsubscribe();
+
+  let rangeStart, rangeEnd;
+  if (state.view === "day") {
+    rangeStart = startOfDay(state.cursor);
+    rangeEnd = endOfDay(state.cursor);
+  } else if (state.view === "week") {
+    rangeStart = startOfWeek(state.cursor);
+    rangeEnd = endOfWeek(state.cursor);
+  } else {
+    // month view: include surrounding weeks
+    const s = startOfMonth(state.cursor);
+    const e = endOfMonth(state.cursor);
+    rangeStart = startOfWeek(s);
+    rangeEnd = endOfWeek(e);
+  }
+
+  const q = query(
+    collection(db, "reservations"),
+    where("startAt", ">=", Timestamp.fromDate(rangeStart)),
+    where("startAt", "<=", Timestamp.fromDate(rangeEnd))
+  );
+
+  state.unsubscribe = onSnapshot(q, (snap) => {
+    state.reservations = [];
+    snap.forEach(docSnap => {
+      const d = docSnap.data();
+      state.reservations.push({
+        id: docSnap.id,
+        room: d.room,
+        startAt: d.startAt.toDate(),
+        endAt: d.endAt.toDate(),
+        createdBy: d.createdBy,
+        createdById: d.createdById || null,
+      });
+    });
+    render();
+  }, (err) => {
+    console.error(err);
+    calendarWrap.innerHTML = `<div class="loading">데이터를 불러올 수 없습니다.<br>Firebase 설정을 확인해주세요.</div>`;
+  });
+}
+
+// ============================================
+// RENDER
+// ============================================
+function render() {
+  updateToolbarTitle();
+  roomSelectWrap.classList.toggle("visible", state.view === "week");
+  if (state.view === "day") renderDay();
+  else if (state.view === "week") renderWeek();
+  else renderMonth();
+}
+
+function updateToolbarTitle() {
+  if (state.view === "day") {
+    toolbarTitle.textContent = fmtKDate(state.cursor);
+  } else if (state.view === "week") {
+    const s = startOfWeek(state.cursor);
+    const e = addDays(s, 6);
+    toolbarTitle.textContent = `${s.getFullYear()}년 ${s.getMonth()+1}월 ${s.getDate()}일 – ${e.getMonth()+1}월 ${e.getDate()}일`;
+  } else {
+    toolbarTitle.textContent = `${state.cursor.getFullYear()}년 ${state.cursor.getMonth()+1}월`;
+  }
+}
+
+function updateViewButtons() {
+  document.querySelectorAll(".view-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.view === state.view);
+  });
+}
+
+// ---------- DAY VIEW ----------
+function renderDay() {
+  const slotsPerHour = 2;
+  const totalSlots = (CLOSE_HOUR - OPEN_HOUR) * slotsPerHour;
+
+  const grid = document.createElement("div");
+  grid.className = "day-grid";
+
+  // headers
+  const corner = document.createElement("div");
+  corner.className = "day-header-cell time-corner";
+  grid.appendChild(corner);
+  ROOMS.forEach(r => {
+    const h = document.createElement("div");
+    h.className = "day-header-cell";
+    h.innerHTML = `<span class="room-dot" style="background:${r.color}"></span>${r.name}`;
+    grid.appendChild(h);
+  });
+
+  // build columns
+  const columns = ROOMS.map(() => []);
+  for (let i = 0; i < totalSlots; i++) {
+    const hour = OPEN_HOUR + Math.floor(i / 2);
+    const minute = (i % 2) * 30;
+
+    // time label
+    const label = document.createElement("div");
+    label.className = "time-label";
+    if (minute === 0) label.textContent = `${pad(hour)}:00`;
+    grid.appendChild(label);
+
+    ROOMS.forEach((r, idx) => {
+      const slot = document.createElement("div");
+      slot.className = "slot" + (minute === 30 ? " half-hour" : "");
+      slot.dataset.hour = hour;
+      slot.dataset.minute = minute;
+      slot.dataset.roomKey = r.key;
+      slot.addEventListener("click", () => openCreateModal({
+        date: state.cursor,
+        hour, minute, roomKey: r.key
+      }));
+      grid.appendChild(slot);
+      columns[idx].push(slot);
+    });
+  }
+
+  calendarWrap.innerHTML = "";
+  calendarWrap.appendChild(grid);
+
+  // overlay reservations
+  const dayStr = fmtDate(state.cursor);
+  state.reservations.forEach(res => {
+    if (!isSameDay(res.startAt, state.cursor)) return;
+    const r = roomByName(res.room);
+    if (!r) return;
+    const colIdx = ROOMS.indexOf(r);
+
+    const startMin = res.startAt.getHours() * 60 + res.startAt.getMinutes();
+    const endMin = res.endAt.getHours() * 60 + res.endAt.getMinutes();
+    const openMin = OPEN_HOUR * 60;
+    const slotIdx = Math.floor((startMin - openMin) / 30);
+    if (slotIdx < 0 || slotIdx >= columns[colIdx].length) return;
+    const anchor = columns[colIdx][slotIdx];
+
+    const heightSlots = (endMin - startMin) / 30;
+    const block = document.createElement("div");
+    block.className = `reservation ${r.cls}`;
+    block.style.top = "1px";
+    block.style.height = (heightSlots * 36 - 2) + "px";
+    block.innerHTML = `
+      <div class="res-name">${escapeHtml(res.createdBy)}</div>
+      <div class="res-time">${fmtTime(res.startAt)} – ${fmtTime(res.endAt)}</div>
+    `;
+    block.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openDetailModal(res);
+    });
+    anchor.appendChild(block);
+  });
+}
+
+// ---------- WEEK VIEW ----------
+function renderWeek() {
+  const weekStart = startOfWeek(state.cursor);
+  const days = Array.from({length: 7}, (_, i) => addDays(weekStart, i));
+  const slotsPerHour = 2;
+  const totalSlots = (CLOSE_HOUR - OPEN_HOUR) * slotsPerHour;
+  const today = new Date();
+  const r = roomByKey(state.weekRoomKey);
+
+  const grid = document.createElement("div");
+  grid.className = "week-grid";
+
+  const corner = document.createElement("div");
+  corner.className = "day-header-cell time-corner";
+  grid.appendChild(corner);
+
+  const dayNames = ["일","월","화","수","목","금","토"];
+  days.forEach(day => {
+    const h = document.createElement("div");
+    h.className = "day-header-cell" + (isSameDay(day, today) ? " is-today" : "");
+    h.innerHTML = `${dayNames[day.getDay()]}<span class="day-num">${day.getDate()}</span>`;
+    h.style.cursor = "pointer";
+    h.addEventListener("click", () => {
+      state.cursor = day;
+      state.view = "day";
+      updateViewButtons();
+      subscribeAndRender();
+    });
+    grid.appendChild(h);
+  });
+
+  const columns = days.map(() => []);
+  for (let i = 0; i < totalSlots; i++) {
+    const hour = OPEN_HOUR + Math.floor(i / 2);
+    const minute = (i % 2) * 30;
+
+    const label = document.createElement("div");
+    label.className = "time-label";
+    if (minute === 0) label.textContent = `${pad(hour)}:00`;
+    grid.appendChild(label);
+
+    days.forEach((day, idx) => {
+      const slot = document.createElement("div");
+      slot.className = "slot" + (minute === 30 ? " half-hour" : "");
+      slot.addEventListener("click", () => openCreateModal({
+        date: day, hour, minute, roomKey: state.weekRoomKey
+      }));
+      grid.appendChild(slot);
+      columns[idx].push(slot);
+    });
+  }
+
+  calendarWrap.innerHTML = "";
+  calendarWrap.appendChild(grid);
+
+  // overlay reservations for selected room only
+  state.reservations.forEach(res => {
+    if (res.room !== r.name) return;
+    const dayIdx = days.findIndex(d => isSameDay(d, res.startAt));
+    if (dayIdx < 0) return;
+    const startMin = res.startAt.getHours() * 60 + res.startAt.getMinutes();
+    const endMin = res.endAt.getHours() * 60 + res.endAt.getMinutes();
+    const openMin = OPEN_HOUR * 60;
+    const slotIdx = Math.floor((startMin - openMin) / 30);
+    if (slotIdx < 0 || slotIdx >= columns[dayIdx].length) return;
+    const anchor = columns[dayIdx][slotIdx];
+
+    const heightSlots = (endMin - startMin) / 30;
+    const block = document.createElement("div");
+    block.className = `reservation ${r.cls}`;
+    block.style.top = "1px";
+    block.style.height = (heightSlots * 36 - 2) + "px";
+    block.innerHTML = `
+      <div class="res-name">${escapeHtml(res.createdBy)}</div>
+      <div class="res-time">${fmtTime(res.startAt)} – ${fmtTime(res.endAt)}</div>
+    `;
+    block.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openDetailModal(res);
+    });
+    anchor.appendChild(block);
+  });
+}
+
+// ---------- MONTH VIEW ----------
+function renderMonth() {
+  const monthStart = startOfMonth(state.cursor);
+  const monthEnd = endOfMonth(state.cursor);
+  const gridStart = startOfWeek(monthStart);
+  const gridEnd = endOfWeek(monthEnd);
+  const today = new Date();
+
+  const wrap = document.createElement("div");
+
+  const grid = document.createElement("div");
+  grid.className = "month-grid";
+
+  const dayNames = ["일","월","화","수","목","금","토"];
+  dayNames.forEach(n => {
+    const h = document.createElement("div");
+    h.className = "month-day-header";
+    h.textContent = n;
+    grid.appendChild(h);
+  });
+
+  // count reservations per day
+  const counts = {};
+  state.reservations.forEach(res => {
+    const k = fmtDate(res.startAt);
+    counts[k] = (counts[k] || 0) + 1;
+  });
+
+  let cur = new Date(gridStart);
+  while (cur <= gridEnd) {
+    const cell = document.createElement("div");
+    cell.className = "month-cell";
+    if (cur.getMonth() !== state.cursor.getMonth()) cell.classList.add("other-month");
+    if (isSameDay(cur, today)) cell.classList.add("is-today");
+
+    const num = document.createElement("div");
+    num.className = "month-day-num";
+    num.textContent = cur.getDate();
+    cell.appendChild(num);
+
+    const k = fmtDate(cur);
+    if (counts[k]) {
+      const c = document.createElement("div");
+      c.className = "month-count";
+      c.innerHTML = `<span class="dot"></span>${counts[k]}건`;
+      cell.appendChild(c);
+    }
+
+    const cellDate = new Date(cur);
+    cell.addEventListener("click", () => {
+      state.cursor = cellDate;
+      state.view = "day";
+      updateViewButtons();
+      subscribeAndRender();
+    });
+
+    grid.appendChild(cell);
+    cur = addDays(cur, 1);
+  }
+
+  wrap.appendChild(grid);
+  calendarWrap.innerHTML = "";
+  calendarWrap.appendChild(wrap);
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+  }[c]));
+}
+
+// ============================================
+// NAVIGATION
+// ============================================
+$("prev-btn").addEventListener("click", () => {
+  if (state.view === "day") state.cursor = addDays(state.cursor, -1);
+  else if (state.view === "week") state.cursor = addDays(state.cursor, -7);
+  else state.cursor = addMonths(state.cursor, -1);
+  subscribeAndRender();
+});
+$("next-btn").addEventListener("click", () => {
+  if (state.view === "day") state.cursor = addDays(state.cursor, 1);
+  else if (state.view === "week") state.cursor = addDays(state.cursor, 7);
+  else state.cursor = addMonths(state.cursor, 1);
+  subscribeAndRender();
+});
+$("today-btn").addEventListener("click", () => {
+  state.cursor = new Date();
+  subscribeAndRender();
+});
+
+document.querySelectorAll(".view-btn").forEach(b => {
+  b.addEventListener("click", () => {
+    state.view = b.dataset.view;
+    updateViewButtons();
+    subscribeAndRender();
+  });
+});
+
+roomSelect.addEventListener("change", () => {
+  state.weekRoomKey = roomSelect.value;
+  render();
+});
+
+// ============================================
+// CREATE MODAL
+// ============================================
+function populateStartTimes() {
+  const sel = $("field-start");
+  sel.innerHTML = "";
+  for (let h = OPEN_HOUR; h < CLOSE_HOUR; h++) {
+    for (let m = 0; m < 60; m += 30) {
+      const opt = document.createElement("option");
+      opt.value = `${h}:${m}`;
+      opt.textContent = `${pad(h)}:${pad(m)}`;
+      sel.appendChild(opt);
+    }
+  }
+}
+populateStartTimes();
+
+function openCreateModal({ date, hour, minute, roomKey }) {
+  $("create-error").classList.remove("visible");
+  // 가입한 회원은 본인 이름 자동 입력, 공용 계정은 마지막 입력 이름
+  let defaultName = "";
+  if (state.user && !state.user.isShared && !state.user.isAdmin) {
+    defaultName = state.user.name;
+  } else {
+    defaultName = localStorage.getItem("rangsamble.lastName") || "";
+  }
+  $("field-name").value = defaultName;
+  $("field-room").value = roomKey;
+  $("field-date").value = fmtDate(date);
+  $("field-start").value = `${hour}:${minute}`;
+  $("field-duration").value = "60";
+  $("create-modal").classList.add("visible");
+  setTimeout(() => $("field-name").focus(), 100);
+}
+
+function closeCreateModal() {
+  $("create-modal").classList.remove("visible");
+}
+
+$("create-cancel").addEventListener("click", closeCreateModal);
+$("create-modal").addEventListener("click", (e) => {
+  if (e.target.id === "create-modal") closeCreateModal();
+});
+
+$("create-save").addEventListener("click", async () => {
+  const name = $("field-name").value.trim();
+  const roomKey = $("field-room").value;
+  const dateStr = $("field-date").value;
+  const startStr = $("field-start").value;
+  const duration = parseInt($("field-duration").value, 10);
+  const errEl = $("create-error");
+  errEl.classList.remove("visible");
+
+  if (!name) {
+    errEl.textContent = "학생 이름을 입력해주세요.";
+    errEl.classList.add("visible");
+    return;
+  }
+  if (!dateStr) {
+    errEl.textContent = "날짜를 선택해주세요.";
+    errEl.classList.add("visible");
+    return;
+  }
+
+  const room = roomByKey(roomKey);
+  const [h, m] = startStr.split(":").map(Number);
+  const [yy, mm, dd] = dateStr.split("-").map(Number);
+  const startAt = new Date(yy, mm-1, dd, h, m, 0, 0);
+  const endAt = new Date(startAt.getTime() + duration * 60 * 1000);
+
+  // bounds check
+  const closeAt = new Date(yy, mm-1, dd, CLOSE_HOUR, 0, 0, 0);
+  if (endAt > closeAt) {
+    errEl.textContent = `영업 종료(${CLOSE_HOUR}:00) 이후로 예약할 수 없습니다.`;
+    errEl.classList.add("visible");
+    return;
+  }
+
+  // remember name
+  localStorage.setItem("rangsamble.lastName", name);
+
+  // 충돌 검사: 같은 날의 예약을 가져와서 같은 방 + 시간 겹침 확인
+  // (room 필터를 쿼리에서 빼서 복합 인덱스 불필요. 클라이언트에서 거름)
+  try {
+    const dayStart = startOfDay(startAt);
+    const dayEnd = endOfDay(startAt);
+    const overlapQ = query(
+      collection(db, "reservations"),
+      where("startAt", ">=", Timestamp.fromDate(dayStart)),
+      where("startAt", "<=", Timestamp.fromDate(dayEnd))
+    );
+
+    const snap = await getDocs(overlapQ);
+    let conflict = false;
+    snap.forEach(d => {
+      const data = d.data();
+      if (data.room !== room.name) return;
+      const s = data.startAt.toDate();
+      const e = data.endAt.toDate();
+      if (s < endAt && e > startAt) conflict = true;
+    });
+    if (conflict) {
+      errEl.textContent = "이미 예약된 시간입니다.";
+      errEl.classList.add("visible");
+      return;
+    }
+
+    await addDoc(collection(db, "reservations"), {
+      room: room.name,
+      startAt: Timestamp.fromDate(startAt),
+      endAt: Timestamp.fromDate(endAt),
+      createdBy: name,
+      createdById: state.user.userId,
+      createdAt: Timestamp.now(),
+    });
+    closeCreateModal();
+    showToast("예약이 저장되었습니다");
+  } catch (err) {
+    console.error(err);
+    errEl.textContent = "저장 중 오류가 발생했습니다: " + (err.message || err.code || "알 수 없음");
+    errEl.classList.add("visible");
+  }
+});
+
+// ============================================
+// DETAIL MODAL
+// ============================================
+let currentDetailRes = null;
+
+function openDetailModal(res) {
+  currentDetailRes = res;
+  $("detail-name").textContent = res.createdBy;
+  $("detail-room").textContent = res.room;
+  $("detail-date").textContent = fmtKDate(res.startAt);
+  $("detail-time").textContent = `${fmtTime(res.startAt)} – ${fmtTime(res.endAt)}`;
+
+  // 삭제 버튼은 본인(가입회원) 또는 관리자만. 공용계정은 삭제 불가.
+  let canDelete = false;
+  if (state.user.isAdmin) {
+    canDelete = true;
+  } else if (!state.user.isShared && res.createdById && res.createdById === state.user.userId) {
+    canDelete = true;
+  }
+  $("detail-delete").style.display = canDelete ? "inline-block" : "none";
+
+  $("detail-modal").classList.add("visible");
+}
+
+$("detail-close").addEventListener("click", () => {
+  $("detail-modal").classList.remove("visible");
+});
+$("detail-modal").addEventListener("click", (e) => {
+  if (e.target.id === "detail-modal") $("detail-modal").classList.remove("visible");
+});
+
+$("detail-delete").addEventListener("click", async () => {
+  if (!currentDetailRes) return;
+  if (!confirm(`${currentDetailRes.createdBy}님의 예약을 삭제하시겠습니까?`)) return;
+  try {
+    await deleteDoc(doc(db, "reservations", currentDetailRes.id));
+    $("detail-modal").classList.remove("visible");
+    showToast("예약이 삭제되었습니다");
+  } catch (err) {
+    console.error(err);
+    alert("삭제 중 오류가 발생했습니다.");
+  }
+});
+
+// ============================================
+// BOOT
+// ============================================
+if (!tryAutoLogin()) {
+  showLogin();
+}
+</script>
+</body>
+</html>
