@@ -558,9 +558,9 @@
     <div class="modal-body">
       <div class="modal-error" id="name-error"></div>
       <div class="field">
-        <label for="name-input">이름 · 시간 (선택)</label>
-        <input type="text" id="name-input" placeholder="예: 김지은 또는 김지은 14:00">
-        <div class="hint">시간을 함께 적어도 좋고, 이름만 적어도 됩니다.</div>
+        <label for="name-input">이름 (선택: 메모)</label>
+        <input type="text" id="name-input" placeholder="예: 김지은 또는 김지은 (변경 가능성 있음)">
+        <div class="hint">이름 뒤에 간단한 메모를 함께 적을 수 있습니다.</div>
       </div>
     </div>
     <div class="modal-footer">
@@ -1023,10 +1023,10 @@ function openNameModal(row) {
   const input = $("name-input");
   if (!state.user.isAdmin) {
     input.value = state.user.name;
-    input.placeholder = `예: ${state.user.name} 14:00`;
+    input.placeholder = `예: ${state.user.name} (변경 가능성 있음)`;
   } else {
     input.value = "";
-    input.placeholder = "예: 김지은 또는 김지은 14:00";
+    input.placeholder = "예: 김지은 또는 김지은 (변경 가능성 있음)";
   }
   $("name-modal").classList.add("visible");
   setTimeout(() => input.focus(), 100);
