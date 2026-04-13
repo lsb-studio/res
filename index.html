@@ -55,10 +55,8 @@
 
   input { font-family: inherit; font-size: inherit; color: inherit; }
 
-  /* ============================================
-     LOGIN / SIGNUP
-     ============================================ */
-  #login-screen, #signup-screen {
+  /* LOGIN / SIGNUP */
+  #login-screen, #signup-screen, #recover-screen {
     min-height: 100vh; min-height: 100dvh;
     display: none;
     align-items: center; justify-content: center;
@@ -67,29 +65,21 @@
       radial-gradient(ellipse at top, rgba(59, 47, 74, 0.04) 0%, transparent 60%),
       var(--bg);
   }
-  #login-screen.visible, #signup-screen.visible { display: flex; }
+  #login-screen.visible, #signup-screen.visible, #recover-screen.visible { display: flex; }
 
   .login-card { width: 100%; max-width: 380px; text-align: center; }
-
-  .login-mark {
-    font-family: var(--serif); font-size: 14px;
-    letter-spacing: 0.4em; text-transform: uppercase;
-    color: var(--ink-faint); margin-bottom: 28px;
-  }
 
   .login-title {
     font-family: var(--serif); font-size: 64px; font-weight: 500;
     line-height: 1; margin: 0 0 12px; color: var(--ink);
     letter-spacing: -0.01em;
   }
-
   .login-subtitle {
     font-family: var(--serif); font-style: italic; font-size: 18px;
     color: var(--ink-soft); margin-bottom: 56px;
   }
-
-  #signup-screen .login-title { font-size: 56px; }
-  #signup-screen .login-subtitle { margin-bottom: 40px; }
+  #signup-screen .login-title, #recover-screen .login-title { font-size: 56px; }
+  #signup-screen .login-subtitle, #recover-screen .login-subtitle { margin-bottom: 40px; }
 
   .login-divider {
     display: flex; align-items: center; gap: 16px;
@@ -104,7 +94,6 @@
   }
 
   .login-form { display: flex; flex-direction: column; gap: 16px; }
-
   .login-form input {
     width: 100%; padding: 16px 18px;
     background: var(--bg-elevated);
@@ -127,6 +116,7 @@
   }
   .login-button:hover { background: var(--accent-soft); }
   .login-button:active { transform: scale(0.98); }
+  .login-button:disabled { opacity: 0.6; cursor: not-allowed; }
 
   .login-error {
     color: var(--danger); font-size: 14px;
@@ -136,6 +126,7 @@
   .login-footer {
     margin-top: 32px; font-size: 13px; color: var(--ink-soft);
     display: flex; align-items: center; justify-content: center; gap: 8px;
+    flex-wrap: wrap;
   }
   .link-btn {
     color: var(--accent); font-size: 13px; font-weight: 500;
@@ -143,9 +134,7 @@
   }
   .link-btn:hover { background: rgba(59, 47, 74, 0.06); }
 
-  /* ============================================
-     APP
-     ============================================ */
+  /* APP */
   #app-screen {
     display: none; min-height: 100vh; min-height: 100dvh;
     flex-direction: column;
@@ -158,33 +147,31 @@
     border-bottom: 1px solid var(--line);
     background: var(--bg-elevated);
     position: sticky; top: 0; z-index: 10;
+    gap: 8px;
   }
-
   .header-brand {
     font-family: var(--serif); font-size: 22px; font-weight: 500;
     letter-spacing: 0.02em; color: var(--ink);
+    flex-shrink: 0;
   }
-
   .header-right {
-    display: flex; align-items: center; gap: 12px;
+    display: flex; align-items: center; gap: 10px;
     font-size: 13px; color: var(--ink-soft);
+    flex-wrap: wrap; justify-content: flex-end;
   }
-
   .header-user { font-family: var(--serif); font-style: italic; }
   .header-user.is-admin::after {
     content: ' · 관리자'; color: var(--accent); font-style: normal;
   }
-
-  .logout-btn {
+  .header-btn {
     color: var(--ink-faint); font-size: 13px;
     padding: 6px 10px; border-radius: var(--radius);
     transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
   }
-  .logout-btn:hover { color: var(--ink); background: var(--line-soft); }
+  .header-btn:hover { color: var(--ink); background: var(--line-soft); }
 
-  /* ============================================
-     SCHEDULE TABLE
-     ============================================ */
+  /* SCHEDULE TABLE */
   .page-title-wrap {
     padding: 32px 24px 20px;
     text-align: center;
@@ -194,15 +181,11 @@
     font-family: var(--serif); font-size: 34px; font-weight: 500;
     margin: 0; letter-spacing: 0.01em;
   }
-  .page-subtitle {
-    font-family: var(--serif); font-style: italic;
-    color: var(--ink-soft); font-size: 15px; margin-top: 4px;
-  }
 
   .table-wrap {
     flex: 1; overflow-y: auto;
     padding: 24px 16px 100px;
-    max-width: 720px; width: 100%; margin: 0 auto;
+    max-width: 760px; width: 100%; margin: 0 auto;
   }
 
   .loading-row {
@@ -220,7 +203,6 @@
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--line);
   }
-
   .schedule-table thead th {
     background: var(--line-soft);
     font-family: var(--serif); font-weight: 500; font-size: 13px;
@@ -229,20 +211,14 @@
     letter-spacing: 0.08em; text-transform: uppercase;
     border-bottom: 1px solid var(--line);
   }
-  .schedule-table thead th:first-child { width: 42%; }
+  .schedule-table thead th:nth-child(1) { width: 30%; }
+  .schedule-table thead th:nth-child(2) { width: 30%; }
+  .schedule-table thead th:nth-child(3) { width: 40%; }
 
-  .schedule-table tbody tr {
-    border-bottom: 1px solid var(--line-soft);
-  }
+  .schedule-table tbody tr { border-bottom: 1px solid var(--line-soft); }
   .schedule-table tbody tr:last-child td { border-bottom: none; }
-  .schedule-table tbody td {
-    border-bottom: 1px solid var(--line-soft);
-  }
-
-  .schedule-table td {
-    padding: 16px 18px;
-    vertical-align: top;
-  }
+  .schedule-table tbody td { border-bottom: 1px solid var(--line-soft); }
+  .schedule-table td { padding: 16px 18px; vertical-align: top; }
 
   .date-cell {
     font-family: var(--serif); font-size: 21px;
@@ -257,11 +233,26 @@
     background: transparent; border: none; padding: 0;
     border-bottom: 1px dashed var(--ink-faint);
   }
-  .date-cell .date-input:focus {
-    outline: none; border-bottom-color: var(--accent);
-  }
+  .date-cell .date-input:focus { outline: none; border-bottom-color: var(--accent); }
   .date-cell .date-input::placeholder {
     color: var(--ink-faint); font-style: italic; font-size: 16px;
+  }
+
+  .info-cell {
+    font-size: 14px; color: var(--ink-soft);
+    border-right: 1px solid var(--line-soft);
+    word-break: break-word;
+  }
+  .info-cell .info-input {
+    width: 100%;
+    font: inherit; color: var(--ink);
+    background: transparent;
+    border: none; padding: 4px 0;
+    border-bottom: 1px dashed var(--ink-faint);
+  }
+  .info-cell .info-input:focus { outline: none; border-bottom-color: var(--accent); }
+  .info-cell .info-input::placeholder {
+    color: var(--ink-faint); font-style: italic;
   }
 
   .row-delete {
@@ -283,7 +274,6 @@
     display: flex; flex-wrap: wrap; gap: 6px;
     align-items: center; min-height: 32px;
   }
-
   .name-chip {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 6px 13px;
@@ -299,7 +289,6 @@
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
   }
-
   .add-name-btn {
     padding: 6px 14px;
     border: 1px dashed var(--line);
@@ -313,7 +302,6 @@
     color: var(--accent);
     border-style: solid;
   }
-
   .add-row-btn {
     display: block;
     margin: 20px auto 0;
@@ -330,7 +318,6 @@
     color: var(--accent);
     border-style: solid;
   }
-
   .empty-state {
     text-align: center; padding: 60px 20px;
     color: var(--ink-faint);
@@ -338,9 +325,7 @@
     font-size: 17px;
   }
 
-  /* ============================================
-     MODAL
-     ============================================ */
+  /* MODAL */
   .modal-backdrop {
     position: fixed; inset: 0;
     background: rgba(42, 39, 36, 0.35);
@@ -352,13 +337,11 @@
     animation: fadeIn 0.2s ease;
   }
   .modal-backdrop.visible { display: flex; }
-
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes slideUp {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
   }
-
   .modal {
     background: var(--bg-elevated);
     border-radius: var(--radius-lg);
@@ -367,73 +350,7 @@
     animation: slideUp 0.25s ease;
     overflow: hidden;
   }
-  .modal.modal-wide {
-    max-width: 560px;
-  }
-
-  /* member list inside members modal */
-  .member-list {
-    max-height: 60vh;
-    overflow-y: auto;
-    margin: 0 -24px;
-  }
-  .member-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 24px;
-    border-bottom: 1px solid var(--line-soft);
-  }
-  .member-row:last-child { border-bottom: none; }
-  .member-info {
-    flex: 1;
-    min-width: 0;
-  }
-  .member-name {
-    font-family: var(--serif);
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--ink);
-    line-height: 1.2;
-  }
-  .member-meta {
-    font-size: 12px;
-    color: var(--ink-faint);
-    margin-top: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .member-id {
-    font-family: 'Inter', monospace;
-    font-size: 11px;
-    color: var(--ink-faint);
-    background: var(--line-soft);
-    padding: 2px 7px;
-    border-radius: 4px;
-    margin-right: 6px;
-  }
-  .member-delete-btn {
-    padding: 7px 12px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    font-size: 12px;
-    color: var(--ink-soft);
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-  .member-delete-btn:hover {
-    color: var(--danger);
-    border-color: var(--danger);
-  }
-  .members-empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--ink-faint);
-    font-family: var(--serif);
-    font-style: italic;
-  }
-
+  .modal.modal-wide { max-width: 560px; }
   .modal-header {
     padding: 24px 24px 16px;
     border-bottom: 1px solid var(--line-soft);
@@ -447,9 +364,7 @@
     font-size: 14px; color: var(--ink-soft);
     margin-top: 4px;
   }
-
   .modal-body { padding: 20px 24px; }
-
   .field { margin-bottom: 16px; }
   .field:last-child { margin-bottom: 0; }
   .field label {
@@ -464,19 +379,15 @@
     background: var(--bg-elevated);
     transition: border-color 0.2s;
   }
-  .field input:focus {
-    outline: none; border-color: var(--accent);
-  }
+  .field input:focus { outline: none; border-color: var(--accent); }
   .field .hint {
     font-size: 12px; color: var(--ink-faint);
     margin-top: 6px; font-style: italic;
   }
-
   .modal-footer {
     padding: 16px 24px 24px;
     display: flex; gap: 10px; justify-content: flex-end;
   }
-
   .btn {
     padding: 11px 20px;
     border-radius: var(--radius);
@@ -496,7 +407,6 @@
     margin-right: auto;
   }
   .btn-danger:hover { background: var(--danger); color: #FFFFFF; }
-
   .modal-error {
     background: #FBF1F1; color: var(--danger);
     padding: 10px 14px;
@@ -507,9 +417,62 @@
   }
   .modal-error.visible { display: block; }
 
-  /* ============================================
-     TOAST
-     ============================================ */
+  /* members list */
+  .member-list {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin: 0 -24px;
+  }
+  .member-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .member-row:last-child { border-bottom: none; }
+  .member-info { flex: 1; min-width: 0; }
+  .member-name {
+    font-family: var(--serif); font-size: 18px; font-weight: 500;
+    color: var(--ink); line-height: 1.2;
+  }
+  .member-meta {
+    font-size: 12px; color: var(--ink-faint);
+    margin-top: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .member-badge {
+    font-size: 10px;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 500;
+  }
+  .member-delete-btn {
+    padding: 7px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: 12px;
+    color: var(--ink-soft);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .member-delete-btn:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+  .members-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink-faint);
+    font-family: var(--serif); font-style: italic;
+  }
+
+  /* TOAST */
   .toast {
     position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(100px);
@@ -528,25 +491,26 @@
     opacity: 1;
   }
 
-  /* ============================================
-     RESPONSIVE
-     ============================================ */
+  /* RESPONSIVE */
   @media (max-width: 767px) {
     .header-brand { font-size: 19px; }
     .login-title { font-size: 52px; }
     .page-title-wrap { padding: 24px 16px 16px; }
     .page-title { font-size: 28px; }
-    .page-subtitle { font-size: 14px; }
-    .table-wrap { padding: 16px 10px 100px; }
+    .table-wrap { padding: 16px 8px 100px; }
     .schedule-table thead th {
-      padding: 11px 12px; font-size: 11px;
+      padding: 10px 8px; font-size: 10px; letter-spacing: 0.04em;
     }
-    .schedule-table td { padding: 13px 12px; }
-    .date-cell { font-size: 17px; }
-    .schedule-table thead th:first-child { width: 44%; }
-    .name-chip { font-size: 13px; padding: 6px 11px; }
-    .add-name-btn { font-size: 12px; padding: 6px 12px; }
+    .schedule-table td { padding: 12px 8px; }
+    .date-cell { font-size: 15px; }
+    .info-cell { font-size: 12px; }
+    .schedule-table thead th:nth-child(1) { width: 30%; }
+    .schedule-table thead th:nth-child(2) { width: 28%; }
+    .schedule-table thead th:nth-child(3) { width: 42%; }
+    .name-chip { font-size: 12px; padding: 5px 10px; }
+    .add-name-btn { font-size: 11px; padding: 5px 10px; }
     .row-delete { opacity: 1; }
+    .header-btn { font-size: 12px; padding: 5px 7px; }
   }
 </style>
 </head>
@@ -559,14 +523,16 @@
     <p class="login-subtitle">Schedule</p>
     <div class="login-divider"><span>로그인</span></div>
     <form class="login-form" id="login-form" autocomplete="off">
-      <input type="text" id="login-id" placeholder="아이디" autocomplete="off">
-      <input type="password" id="login-pw" placeholder="비밀번호" autocomplete="off">
-      <button type="submit" class="login-button">입장</button>
+      <input type="email" id="login-email" placeholder="이메일" autocomplete="email">
+      <input type="password" id="login-pw" placeholder="비밀번호" autocomplete="current-password">
+      <button type="submit" class="login-button" id="login-submit">입장</button>
       <div class="login-error" id="login-error"></div>
     </form>
     <div class="login-footer">
       <span>아직 계정이 없으신가요?</span>
       <button type="button" class="link-btn" id="goto-signup">회원가입</button>
+      <span>·</span>
+      <button type="button" class="link-btn" id="forgot-pw">비밀번호 찾기</button>
     </div>
   </div>
 </div>
@@ -578,17 +544,39 @@
     <p class="login-subtitle">회원가입</p>
     <div class="login-divider"><span>Sign up</span></div>
     <form class="login-form" id="signup-form" autocomplete="off">
-      <input type="text"  id="signup-name"  placeholder="이름" autocomplete="off">
-      <input type="text"  id="signup-id"    placeholder="아이디" autocomplete="off">
-      <input type="password" id="signup-pw"  placeholder="비밀번호 (8자 이상)" autocomplete="off">
-      <input type="password" id="signup-pw2" placeholder="비밀번호 확인" autocomplete="off">
+      <input type="text"  id="signup-name"   placeholder="이름" autocomplete="name">
+      <input type="email" id="signup-email"  placeholder="이메일" autocomplete="email">
+      <input type="password" id="signup-pw"  placeholder="비밀번호 (8자 이상)" autocomplete="new-password">
+      <input type="password" id="signup-pw2" placeholder="비밀번호 확인" autocomplete="new-password">
       <input type="text"  id="signup-invite" placeholder="초대코드" autocomplete="off">
-      <button type="submit" class="login-button">가입하기</button>
+      <button type="submit" class="login-button" id="signup-submit">가입하기</button>
       <div class="login-error" id="signup-error"></div>
     </form>
     <div class="login-footer">
       <span>이미 계정이 있으신가요?</span>
       <button type="button" class="link-btn" id="goto-login">로그인</button>
+    </div>
+  </div>
+</div>
+
+<!-- RECOVER PROFILE SCREEN -->
+<div id="recover-screen">
+  <div class="login-card">
+    <h1 class="login-title">스케쥴</h1>
+    <p class="login-subtitle">프로필 복구</p>
+    <div class="login-divider"><span>Welcome back</span></div>
+    <p style="font-size:13px;color:var(--ink-soft);margin:-20px 0 24px;line-height:1.6;">
+      이전에 가입했던 계정이 탈퇴된 상태입니다.<br>
+      이름과 초대코드를 다시 입력하면 복구됩니다.
+    </p>
+    <form class="login-form" id="recover-form" autocomplete="off">
+      <input type="text" id="recover-name"   placeholder="이름" autocomplete="name">
+      <input type="text" id="recover-invite" placeholder="초대코드" autocomplete="off">
+      <button type="submit" class="login-button" id="recover-submit">복구하기</button>
+      <div class="login-error" id="recover-error"></div>
+    </form>
+    <div class="login-footer">
+      <button type="button" class="link-btn" id="recover-cancel">취소 (로그아웃)</button>
     </div>
   </div>
 </div>
@@ -599,9 +587,9 @@
     <div class="header-brand">스케쥴</div>
     <div class="header-right">
       <span class="header-user" id="header-user"></span>
-      <button class="logout-btn" id="members-btn" style="display:none">회원 관리</button>
-      <button class="logout-btn" id="pw-change-btn" style="display:none">비밀번호 변경</button>
-      <button class="logout-btn" id="logout-btn">로그아웃</button>
+      <button class="header-btn" id="members-btn" style="display:none">회원 관리</button>
+      <button class="header-btn" id="pw-change-btn">비밀번호 변경</button>
+      <button class="header-btn" id="logout-btn">로그아웃</button>
     </div>
   </header>
 
@@ -650,6 +638,35 @@
   </div>
 </div>
 
+<!-- PASSWORD CHANGE MODAL -->
+<div class="modal-backdrop" id="pw-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">비밀번호 변경</h2>
+      <p class="modal-subtitle">Change password</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-error" id="pw-error"></div>
+      <div class="field">
+        <label for="pw-current">현재 비밀번호</label>
+        <input type="password" id="pw-current" autocomplete="current-password">
+      </div>
+      <div class="field">
+        <label for="pw-new">새 비밀번호 (8자 이상)</label>
+        <input type="password" id="pw-new" autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label for="pw-new2">새 비밀번호 확인</label>
+        <input type="password" id="pw-new2" autocomplete="new-password">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="pw-cancel">취소</button>
+      <button class="btn btn-primary" id="pw-save">변경</button>
+    </div>
+  </div>
+</div>
+
 <!-- MEMBERS MANAGEMENT MODAL -->
 <div class="modal-backdrop" id="members-modal">
   <div class="modal modal-wide">
@@ -668,37 +685,14 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- PASSWORD CHANGE MODAL -->
-<div class="modal-backdrop" id="pw-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2 class="modal-title">비밀번호 변경</h2>
-      <p class="modal-subtitle">Change password</p>
-    </div>
-    <div class="modal-body">
-      <div class="modal-error" id="pw-error"></div>
-      <div class="field">
-        <label for="pw-current">현재 비밀번호</label>
-        <input type="password" id="pw-current" autocomplete="off">
-      </div>
-      <div class="field">
-        <label for="pw-new">새 비밀번호 (8자 이상)</label>
-        <input type="password" id="pw-new" autocomplete="off">
-      </div>
-      <div class="field">
-        <label for="pw-new2">새 비밀번호 확인</label>
-        <input type="password" id="pw-new2" autocomplete="off">
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" id="pw-cancel">취소</button>
-      <button class="btn btn-primary" id="pw-save">변경</button>
-    </div>
-  </div>
-</div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
+  EmailAuthProvider, reauthenticateWithCredential, updatePassword,
+  sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 import {
   getFirestore, collection, query, onSnapshot,
   Timestamp, doc, deleteDoc, addDoc, updateDoc, setDoc, getDoc, getDocs
@@ -708,40 +702,25 @@ import {
 // CONFIG
 // ============================================
 const firebaseConfig = {
-  apiKey: "AIzaSyBP8VoukvoNpw66OKcxZ4k2g99R99Qe3H8",
-  authDomain: "studio-seton.firebaseapp.com",
-  projectId: "studio-seton",
-  storageBucket: "studio-seton.firebasestorage.app",
-  messagingSenderId: "933784109411",
-  appId: "1:933784109411:web:a786ccff8d3861485d5356",
-  measurementId: "G-X84JKRMQ3Z"
+  apiKey: "AIzaSyDz5RyRfkyG96t0xHIAjCBnt_7rk780778",
+  authDomain: "cham-res-rev2.firebaseapp.com",
+  projectId: "cham-res-rev2",
+  storageBucket: "cham-res-rev2.firebasestorage.app",
+  messagingSenderId: "926998912488",
+  appId: "1:926998912488:web:c096988bfbcae393ad185d",
+  measurementId: "G-18G4H9SP9C"
 };
 
-// 로그인 정보 (SHA-256 + 솔트로 해시)
-// SALT는 레인보우 테이블 공격을 막기 위한 비밀 문자열입니다.
-// 절대 공개 저장소에 커밋하기 전에 한 번 바꿔주세요 (아래 주석의 생성 방법 참고).
-const SECRET_SALT = "9c625639a69de58afe3324b7fa0f7033";
-
-// 비밀번호를 바꾸려면: 브라우저 콘솔에서
-//   const salt = "9c625639a69de58afe3324b7fa0f7033";
-//   crypto.subtle.digest('SHA-256', new TextEncoder().encode('새비밀번호' + salt))
-//     .then(b => console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))
-// 을 실행해서 나온 해시를 아래에 붙여넣으세요.
-const STUDENT_LOGIN = {
-  id: "login",
-  // "happyhappy"
-  pwHash: "e83bca9e4c84ba99318b232d751193a5858286d203905cfcbd24598e9e65659b"
-};
-const ADMIN_LOGIN = {
-  id: "admin",
-  // "dkssud25"
-  pwHash: "f8654d703f9675112b32d9c952160ab078af7c84a57433e075f8d676b89bd6da"
-};
+const SECRET_SALT = "afd57fdc2828e89911b742aadd2a3ec6";
 // "saeroun"
-const INVITE_CODE_HASH = "a07df84ecf645d3011ce41b09784e24d22df393c5e6c975aa5949265ab49831d";
+const INVITE_CODE_HASH = "1fdf2f176a28fd96fbf3cd567dd732bdbeacace6c62a24c97089e0ec42a4c7d3";
+
+// 회원 수 제한 (이 숫자를 바꾸면 제한이 변경됩니다)
+const MAX_MEMBERS = 100;
 
 // ============================================
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 
 const state = {
@@ -752,27 +731,23 @@ const state = {
 
 // ---------- DOM ----------
 const $ = (id) => document.getElementById(id);
-const loginScreen  = $("login-screen");
-const signupScreen = $("signup-screen");
-const appScreen    = $("app-screen");
-const tableWrap    = $("table-wrap");
-const headerUser   = $("header-user");
+const loginScreen   = $("login-screen");
+const signupScreen  = $("signup-screen");
+const recoverScreen = $("recover-screen");
+const appScreen     = $("app-screen");
+const tableWrap     = $("table-wrap");
+const headerUser    = $("header-user");
 
-function showLogin() {
-  loginScreen.classList.add("visible");
-  signupScreen.classList.remove("visible");
-  appScreen.classList.remove("visible");
-}
-function showSignup() {
-  loginScreen.classList.remove("visible");
-  signupScreen.classList.add("visible");
-  appScreen.classList.remove("visible");
-}
-function showApp() {
+function hideAllScreens() {
   loginScreen.classList.remove("visible");
   signupScreen.classList.remove("visible");
-  appScreen.classList.add("visible");
+  recoverScreen.classList.remove("visible");
+  appScreen.classList.remove("visible");
 }
+function showLogin()   { hideAllScreens(); loginScreen.classList.add("visible"); }
+function showSignup()  { hideAllScreens(); signupScreen.classList.add("visible"); }
+function showRecover() { hideAllScreens(); recoverScreen.classList.add("visible"); }
+function showApp()     { hideAllScreens(); appScreen.classList.add("visible"); }
 
 function showToast(msg) {
   const t = $("toast");
@@ -781,19 +756,15 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove("visible"), 2400);
 }
 
-// SHA-256 해시 (솔트 포함)
 async function sha256(text) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text + SECRET_SALT));
   return Array.from(new Uint8Array(buf))
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
+    .map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
 // ============================================
 // DATE NORMALIZATION
 // ============================================
-// Accepts "5/1", "05/01", "2026/5/1", "2026-5-1", "2026.5.1", "26/5/1"
-// Returns "YYYY/MM/DD" or null
 function normalizeDate(input) {
   if (!input) return null;
   const s = String(input).trim();
@@ -830,96 +801,101 @@ function dateSortKey(dateText) {
 }
 
 // ============================================
-// AUTH
+// AUTH STATE
 // ============================================
-function tryAutoLogin() {
-  const saved = localStorage.getItem("rangsamble.user");
-  if (saved) {
+onAuthStateChanged(auth, async (fbUser) => {
+  if (fbUser) {
     try {
-      state.user = JSON.parse(saved);
-      enterApp();
-      return true;
-    } catch(e) {}
-  }
-  return false;
-}
+      const [profileSnap, adminSnap] = await Promise.all([
+        getDoc(doc(db, "users", fbUser.uid)),
+        getDoc(doc(db, "admins", fbUser.uid))
+      ]);
+      const isAdmin = adminSnap.exists();
+      let profile = profileSnap.exists() ? profileSnap.data() : null;
 
-$("login-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const id = $("login-id").value.trim();
-  const pw = $("login-pw").value;
-  const errEl = $("login-error");
-  errEl.textContent = "";
-
-  const pwHash = await sha256(pw);
-
-  if (id === ADMIN_LOGIN.id && pwHash === ADMIN_LOGIN.pwHash) {
-    state.user = { name: "관리자", userId: "__admin__", isAdmin: true, isShared: false };
-    localStorage.setItem("rangsamble.user", JSON.stringify(state.user));
-    enterApp();
-    return;
-  }
-  if (id === STUDENT_LOGIN.id && pwHash === STUDENT_LOGIN.pwHash) {
-    state.user = { name: "공용 계정", userId: "__shared__", isAdmin: false, isShared: true };
-    localStorage.setItem("rangsamble.user", JSON.stringify(state.user));
-    enterApp();
-    return;
-  }
-  try {
-    const userDoc = await getDoc(doc(db, "users", id));
-    if (userDoc.exists()) {
-      const data = userDoc.data();
-      let matched = false;
-
-      // 신규: 솔트 해시 저장된 경우
-      if (data.passwordHash && data.passwordHash === pwHash) {
-        matched = true;
-      }
-      // 레거시 A: 평문 저장된 기존 회원
-      else if (data.password && data.password === pw) {
-        matched = true;
-        try {
-          await updateDoc(doc(db, "users", id), {
-            passwordHash: pwHash,
-            password: null
-          });
-        } catch (mErr) { console.warn("migration failed", mErr); }
-      }
-      // 레거시 B: 솔트 없이 해시된 기존 회원 → 재해시
-      else if (data.passwordHash) {
-        const legacyBuf = await crypto.subtle.digest(
-          "SHA-256", new TextEncoder().encode(pw)
-        );
-        const legacyHash = Array.from(new Uint8Array(legacyBuf))
-          .map(b => b.toString(16).padStart(2, "0")).join("");
-        if (data.passwordHash === legacyHash) {
-          matched = true;
-          try {
-            await updateDoc(doc(db, "users", id), { passwordHash: pwHash });
-          } catch (mErr) { console.warn("migration failed", mErr); }
-        }
+      // 관리자인데 프로필이 없으면 자동 생성
+      if (isAdmin && !profile) {
+        const autoName = fbUser.email ? fbUser.email.split("@")[0] : "관리자";
+        await setDoc(doc(db, "users", fbUser.uid), {
+          name: autoName,
+          email: fbUser.email,
+          createdAt: Timestamp.now()
+        });
+        profile = { name: autoName, email: fbUser.email };
       }
 
-      if (matched) {
-        state.user = {
-          name: data.name, userId: id,
-          isAdmin: false, isShared: false
-        };
-        localStorage.setItem("rangsamble.user", JSON.stringify(state.user));
-        enterApp();
+      if (!profile) {
+        // 프로필 없고 관리자도 아님 → 탈퇴된 계정. 복구 화면 표시.
+        state.user = null;
+        if (state.unsubscribe) { state.unsubscribe(); state.unsubscribe = null; }
+        $("recover-error").textContent = "";
+        $("recover-name").value = "";
+        $("recover-invite").value = "";
+        showRecover();
         return;
       }
+
+      state.user = {
+        uid: fbUser.uid,
+        email: fbUser.email,
+        name: profile.name,
+        isAdmin: isAdmin
+      };
+      enterApp();
+    } catch (err) {
+      console.error("auth state error", err);
+      await signOut(auth);
     }
-    errEl.textContent = "아이디 또는 비밀번호가 올바르지 않습니다.";
-  } catch (err) {
-    console.error(err);
-    errEl.textContent = "로그인 중 오류가 발생했습니다.";
+  } else {
+    state.user = null;
+    if (state.unsubscribe) { state.unsubscribe(); state.unsubscribe = null; }
+    showLogin();
   }
 });
 
+// ============================================
+// LOGIN
+// ============================================
+$("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = $("login-email").value.trim();
+  const pw    = $("login-pw").value;
+  const errEl = $("login-error");
+  const btn = $("login-submit");
+  errEl.textContent = "";
+
+  if (!email || !pw) {
+    errEl.textContent = "이메일과 비밀번호를 입력해주세요.";
+    return;
+  }
+
+  btn.disabled = true;
+  try {
+    await signInWithEmailAndPassword(auth, email, pw);
+  } catch (err) {
+    console.error(err);
+    if (err.code === "auth/invalid-email") {
+      errEl.textContent = "이메일 형식이 올바르지 않습니다.";
+    } else if (err.code === "auth/user-not-found" ||
+               err.code === "auth/wrong-password" ||
+               err.code === "auth/invalid-credential") {
+      errEl.textContent = "이메일 또는 비밀번호가 올바르지 않습니다.";
+    } else if (err.code === "auth/too-many-requests") {
+      errEl.textContent = "시도가 너무 많습니다. 잠시 후 다시 시도해주세요.";
+    } else {
+      errEl.textContent = "로그인 중 오류가 발생했습니다.";
+    }
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// ============================================
+// SIGNUP
+// ============================================
 $("goto-signup").addEventListener("click", () => {
   $("signup-error").textContent = "";
-  ["signup-name","signup-id","signup-pw","signup-pw2","signup-invite"]
+  ["signup-name","signup-email","signup-pw","signup-pw2","signup-invite"]
     .forEach(k => $(k).value = "");
   showSignup();
 });
@@ -928,14 +904,15 @@ $("goto-login").addEventListener("click", showLogin);
 $("signup-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const name   = $("signup-name").value.trim();
-  const id     = $("signup-id").value.trim();
+  const email  = $("signup-email").value.trim();
   const pw     = $("signup-pw").value;
   const pw2    = $("signup-pw2").value;
   const invite = $("signup-invite").value.trim();
   const errEl = $("signup-error");
+  const btn = $("signup-submit");
   errEl.textContent = "";
 
-  if (!name || !id || !pw || !pw2 || !invite) {
+  if (!name || !email || !pw || !pw2 || !invite) {
     errEl.textContent = "모든 항목을 입력해주세요."; return;
   }
   const inviteHash = await sha256(invite);
@@ -944,51 +921,158 @@ $("signup-form").addEventListener("submit", async (e) => {
   }
   if (pw.length < 8) { errEl.textContent = "비밀번호는 8자 이상이어야 합니다."; return; }
   if (pw !== pw2)    { errEl.textContent = "비밀번호가 일치하지 않습니다."; return; }
-  if (!/^[a-zA-Z0-9_]+$/.test(id)) {
-    errEl.textContent = "아이디는 영문, 숫자, 밑줄(_)만 사용할 수 있습니다."; return;
-  }
-  if (id === ADMIN_LOGIN.id || id === STUDENT_LOGIN.id) {
-    errEl.textContent = "사용할 수 없는 아이디입니다."; return;
-  }
 
+  btn.disabled = true;
   try {
-    const existing = await getDoc(doc(db, "users", id));
-    if (existing.exists()) {
-      errEl.textContent = "이미 사용 중인 아이디입니다."; return;
+    // 회원 수 제한 체크 (meta/counters 문서)
+    const counterRef = doc(db, "meta", "counters");
+    const counterSnap = await getDoc(counterRef);
+    const currentCount = counterSnap.exists() ? (counterSnap.data().memberCount || 0) : 0;
+    if (currentCount >= MAX_MEMBERS) {
+      errEl.textContent = `가입이 마감되었습니다. (최대 ${MAX_MEMBERS}명)`;
+      btn.disabled = false;
+      return;
     }
-    const pwHash = await sha256(pw);
-    await setDoc(doc(db, "users", id), {
-      name,
-      passwordHash: pwHash,
+
+    const cred = await createUserWithEmailAndPassword(auth, email, pw);
+    await setDoc(doc(db, "users", cred.user.uid), {
+      name: name,
+      email: email,
       createdAt: Timestamp.now()
     });
-    state.user = { name, userId: id, isAdmin: false, isShared: false };
-    localStorage.setItem("rangsamble.user", JSON.stringify(state.user));
+    // 회원 수 카운터 증가
+    try {
+      await setDoc(counterRef, {
+        memberCount: currentCount + 1
+      }, { merge: true });
+    } catch (cErr) {
+      console.warn("counter update failed", cErr);
+    }
     showToast("가입이 완료되었습니다");
-    enterApp();
+    // onAuthStateChanged가 이어서 enterApp 호출
   } catch (err) {
     console.error(err);
-    errEl.textContent = "가입 중 오류가 발생했습니다.";
+    if (err.code === "auth/email-already-in-use") {
+      errEl.textContent = "이미 가입된 이메일입니다.";
+    } else if (err.code === "auth/invalid-email") {
+      errEl.textContent = "이메일 형식이 올바르지 않습니다.";
+    } else if (err.code === "auth/weak-password") {
+      errEl.textContent = "비밀번호가 너무 약합니다.";
+    } else {
+      errEl.textContent = "가입 중 오류가 발생했습니다.";
+    }
+  } finally {
+    btn.disabled = false;
   }
 });
 
-$("logout-btn").addEventListener("click", () => {
-  localStorage.removeItem("rangsamble.user");
-  state.user = null;
-  if (state.unsubscribe) { state.unsubscribe(); state.unsubscribe = null; }
-  showLogin();
-  $("login-id").value = "";
-  $("login-pw").value = "";
+// ============================================
+// RECOVER PROFILE
+// ============================================
+$("recover-cancel").addEventListener("click", async () => {
+  try { await signOut(auth); } catch (err) { console.error(err); }
+});
+
+$("recover-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name   = $("recover-name").value.trim();
+  const invite = $("recover-invite").value.trim();
+  const errEl = $("recover-error");
+  const btn = $("recover-submit");
+  errEl.textContent = "";
+
+  if (!name || !invite) {
+    errEl.textContent = "모든 항목을 입력해주세요."; return;
+  }
+  const inviteHash = await sha256(invite);
+  if (inviteHash !== INVITE_CODE_HASH) {
+    errEl.textContent = "초대코드가 올바르지 않습니다."; return;
+  }
+
+  const fbUser = auth.currentUser;
+  if (!fbUser) {
+    errEl.textContent = "로그인 상태가 만료되었습니다. 다시 로그인해주세요.";
+    return;
+  }
+
+  btn.disabled = true;
+  try {
+    // 회원 수 제한 체크 (복구도 새 자리를 차지하니까)
+    const counterRef = doc(db, "meta", "counters");
+    const counterSnap = await getDoc(counterRef);
+    const currentCount = counterSnap.exists() ? (counterSnap.data().memberCount || 0) : 0;
+    if (currentCount >= MAX_MEMBERS) {
+      errEl.textContent = `가입이 마감되었습니다. (최대 ${MAX_MEMBERS}명)`;
+      btn.disabled = false;
+      return;
+    }
+
+    // 프로필 복구
+    await setDoc(doc(db, "users", fbUser.uid), {
+      name: name,
+      email: fbUser.email,
+      createdAt: Timestamp.now()
+    });
+    // 카운터 증가
+    try {
+      await setDoc(counterRef, {
+        memberCount: currentCount + 1
+      }, { merge: true });
+    } catch (cErr) {
+      console.warn("counter update failed", cErr);
+    }
+    showToast("복구되었습니다");
+    // onAuthStateChanged를 강제로 재실행시키려면 새로고침이 가장 확실
+    location.reload();
+  } catch (err) {
+    console.error(err);
+    errEl.textContent = "복구 중 오류가 발생했습니다.";
+    btn.disabled = false;
+  }
+});
+
+// ============================================
+// FORGOT PASSWORD
+// ============================================
+$("forgot-pw").addEventListener("click", async () => {
+  const email = $("login-email").value.trim();
+  const errEl = $("login-error");
+  errEl.textContent = "";
+  if (!email) {
+    errEl.textContent = "먼저 이메일을 입력한 뒤 '비밀번호 찾기'를 눌러주세요.";
+    return;
+  }
+  if (!confirm(`${email} 로 비밀번호 재설정 링크를 보낼까요?`)) return;
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showToast("재설정 링크를 이메일로 보냈습니다");
+  } catch (err) {
+    console.error(err);
+    if (err.code === "auth/user-not-found") {
+      errEl.textContent = "가입되지 않은 이메일입니다.";
+    } else if (err.code === "auth/invalid-email") {
+      errEl.textContent = "이메일 형식이 올바르지 않습니다.";
+    } else {
+      errEl.textContent = "이메일 전송에 실패했습니다.";
+    }
+  }
+});
+
+// ============================================
+// LOGOUT
+// ============================================
+$("logout-btn").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+    $("login-email").value = "";
+    $("login-pw").value = "";
+  } catch (err) { console.error(err); }
 });
 
 function enterApp() {
   showApp();
   headerUser.textContent = state.user.name;
   headerUser.classList.toggle("is-admin", state.user.isAdmin);
-  // 비밀번호 변경 버튼: 가입 회원만 표시
-  const canChangePw = !state.user.isAdmin && !state.user.isShared;
-  $("pw-change-btn").style.display = canChangePw ? "inline-block" : "none";
-  // 회원 관리 버튼: 관리자만 표시
   $("members-btn").style.display = state.user.isAdmin ? "inline-block" : "none";
   subscribeRows();
 }
@@ -1006,6 +1090,7 @@ function subscribeRows() {
       rows.push({
         id: docSnap.id,
         dateText: d.dateText || "",
+        info: d.info || "",
         names: Array.isArray(d.names) ? d.names : [],
         createdAt: d.createdAt ? d.createdAt.toMillis() : 0,
       });
@@ -1029,8 +1114,6 @@ function subscribeRows() {
 // ============================================
 function render() {
   const isAdmin = state.user.isAdmin;
-  const canPlaceName = !state.user.isShared;
-
   const wrap = document.createElement("div");
 
   if (state.rows.length === 0 && !isAdmin) {
@@ -1041,16 +1124,15 @@ function render() {
   } else {
     const table = document.createElement("table");
     table.className = "schedule-table";
-    table.innerHTML = `<thead><tr><th>날짜</th><th>참여</th></tr></thead>`;
+    table.innerHTML = `<thead><tr><th>날짜</th><th>추가정보</th><th>참여</th></tr></thead>`;
     const tbody = document.createElement("tbody");
 
     state.rows.forEach(row => {
       const tr = document.createElement("tr");
 
-      // ---- date cell ----
+      // date cell
       const dateCell = document.createElement("td");
       dateCell.className = "date-cell";
-
       if (isAdmin) {
         const input = document.createElement("input");
         input.type = "text";
@@ -1096,7 +1178,35 @@ function render() {
       }
       tr.appendChild(dateCell);
 
-      // ---- names cell ----
+      // info cell
+      const infoCell = document.createElement("td");
+      infoCell.className = "info-cell";
+      if (isAdmin) {
+        const infoInput = document.createElement("input");
+        infoInput.type = "text";
+        infoInput.className = "info-input";
+        infoInput.value = row.info || "";
+        infoInput.placeholder = "추가정보";
+        infoInput.addEventListener("blur", async () => {
+          const raw = infoInput.value.trim();
+          if (raw === (row.info || "")) return;
+          try {
+            await updateDoc(doc(db, "schedule", row.id), { info: raw });
+          } catch (err) {
+            console.error(err);
+            showToast("저장 실패");
+          }
+        });
+        infoInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") { e.preventDefault(); infoInput.blur(); }
+        });
+        infoCell.appendChild(infoInput);
+      } else {
+        infoCell.textContent = row.info || "";
+      }
+      tr.appendChild(infoCell);
+
+      // names cell
       const namesCell = document.createElement("td");
       namesCell.className = "names-cell";
       const list = document.createElement("div");
@@ -1107,7 +1217,7 @@ function render() {
         chip.className = "name-chip";
         chip.textContent = entry.name;
 
-        const isOwn = !state.user.isShared && entry.userId === state.user.userId;
+        const isOwn = entry.userId === state.user.uid;
         if (isOwn || isAdmin) {
           chip.classList.add("clickable");
           chip.addEventListener("click", () => openChipModal(row, idx));
@@ -1115,13 +1225,11 @@ function render() {
         list.appendChild(chip);
       });
 
-      if (canPlaceName) {
-        const addBtn = document.createElement("button");
-        addBtn.className = "add-name-btn";
-        addBtn.textContent = isAdmin ? "+ 이름 추가" : "+ 내 이름 추가";
-        addBtn.addEventListener("click", () => openNameModal(row));
-        list.appendChild(addBtn);
-      }
+      const addBtn = document.createElement("button");
+      addBtn.className = "add-name-btn";
+      addBtn.textContent = isAdmin ? "+ 이름 추가" : "+ 내 이름 추가";
+      addBtn.addEventListener("click", () => openNameModal(row));
+      list.appendChild(addBtn);
 
       namesCell.appendChild(list);
       tr.appendChild(namesCell);
@@ -1140,6 +1248,7 @@ function render() {
       try {
         await addDoc(collection(db, "schedule"), {
           dateText: "",
+          info: "",
           names: [],
           createdAt: Timestamp.now(),
         });
@@ -1206,7 +1315,7 @@ $("name-save").addEventListener("click", async () => {
   }
 
   const entry = {
-    userId: state.user.userId,
+    userId: state.user.uid,
     name: text,
     addedAt: Date.now(),
   };
@@ -1267,18 +1376,27 @@ $("chip-delete").addEventListener("click", async () => {
 // PASSWORD CHANGE MODAL
 // ============================================
 $("pw-change-btn").addEventListener("click", () => {
+  const btn = $("pw-change-btn");
+  if (btn.disabled) return;
+
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "잠시만요…";
+
   $("pw-error").classList.remove("visible");
   $("pw-current").value = "";
   $("pw-new").value = "";
   $("pw-new2").value = "";
   $("pw-modal").classList.add("visible");
-  setTimeout(() => $("pw-current").focus(), 100);
+
+  setTimeout(() => {
+    $("pw-current").focus();
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }, 300);
 });
 
-function closePwModal() {
-  $("pw-modal").classList.remove("visible");
-}
-
+function closePwModal() { $("pw-modal").classList.remove("visible"); }
 $("pw-cancel").addEventListener("click", closePwModal);
 $("pw-modal").addEventListener("click", (e) => {
   if (e.target.id === "pw-modal") closePwModal();
@@ -1288,6 +1406,9 @@ $("pw-new2").addEventListener("keydown", (e) => {
 });
 
 $("pw-save").addEventListener("click", async () => {
+  const saveBtn = $("pw-save");
+  if (saveBtn.disabled) return;
+
   const cur  = $("pw-current").value;
   const nw   = $("pw-new").value;
   const nw2  = $("pw-new2").value;
@@ -1296,71 +1417,54 @@ $("pw-save").addEventListener("click", async () => {
 
   if (!cur || !nw || !nw2) {
     errEl.textContent = "모든 항목을 입력해주세요.";
-    errEl.classList.add("visible");
-    return;
+    errEl.classList.add("visible"); return;
   }
   if (nw.length < 8) {
     errEl.textContent = "새 비밀번호는 8자 이상이어야 합니다.";
-    errEl.classList.add("visible");
-    return;
+    errEl.classList.add("visible"); return;
   }
   if (nw !== nw2) {
     errEl.textContent = "새 비밀번호가 일치하지 않습니다.";
-    errEl.classList.add("visible");
-    return;
+    errEl.classList.add("visible"); return;
   }
-  if (nw === cur) {
-    errEl.textContent = "새 비밀번호가 기존과 동일합니다.";
-    errEl.classList.add("visible");
-    return;
-  }
+
+  const originalText = saveBtn.textContent;
+  saveBtn.disabled = true;
+  saveBtn.textContent = "변경 중…";
 
   try {
-    const userDoc = await getDoc(doc(db, "users", state.user.userId));
-    if (!userDoc.exists()) {
-      errEl.textContent = "계정 정보를 찾을 수 없습니다.";
-      errEl.classList.add("visible");
-      return;
-    }
-    const data = userDoc.data();
-    const curHash = await sha256(cur);
-
-    // 신규(해시) 또는 레거시(평문) 둘 다 허용
-    let curOk = false;
-    if (data.passwordHash && data.passwordHash === curHash) curOk = true;
-    else if (data.password && data.password === cur) curOk = true;
-
-    if (!curOk) {
-      errEl.textContent = "현재 비밀번호가 올바르지 않습니다.";
-      errEl.classList.add("visible");
-      return;
-    }
-
-    const newHash = await sha256(nw);
-    await updateDoc(doc(db, "users", state.user.userId), {
-      passwordHash: newHash,
-      password: null  // 평문 제거
-    });
+    const fbUser = auth.currentUser;
+    if (!fbUser) throw new Error("not signed in");
+    const cred = EmailAuthProvider.credential(fbUser.email, cur);
+    await reauthenticateWithCredential(fbUser, cred);
+    await updatePassword(fbUser, nw);
     closePwModal();
     showToast("비밀번호가 변경되었습니다");
   } catch (err) {
     console.error(err);
-    errEl.textContent = "변경 중 오류가 발생했습니다.";
+    if (err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
+      errEl.textContent = "현재 비밀번호가 올바르지 않습니다.";
+    } else if (err.code === "auth/weak-password") {
+      errEl.textContent = "비밀번호가 너무 약합니다.";
+    } else {
+      errEl.textContent = "변경 중 오류가 발생했습니다.";
+    }
     errEl.classList.add("visible");
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = originalText;
   }
 });
 
 // ============================================
-// MEMBERS MANAGEMENT MODAL (admin only)
+// MEMBERS MANAGEMENT MODAL
 // ============================================
 $("members-btn").addEventListener("click", async () => {
   $("members-modal").classList.add("visible");
   await renderMembersList();
 });
 
-function closeMembersModal() {
-  $("members-modal").classList.remove("visible");
-}
+function closeMembersModal() { $("members-modal").classList.remove("visible"); }
 $("members-close").addEventListener("click", closeMembersModal);
 $("members-modal").addEventListener("click", (e) => {
   if (e.target.id === "members-modal") closeMembersModal();
@@ -1370,12 +1474,17 @@ async function renderMembersList() {
   const body = $("members-body");
   body.innerHTML = `<div class="loading-row">불러오는 중…</div>`;
   try {
-    const snap = await getDocs(collection(db, "users"));
+    const [usersSnap, adminsSnap] = await Promise.all([
+      getDocs(collection(db, "users")),
+      getDocs(collection(db, "admins"))
+    ]);
+    const adminIds = new Set();
+    adminsSnap.forEach(d => adminIds.add(d.id));
+
     const members = [];
-    snap.forEach(docSnap => {
-      members.push({ id: docSnap.id, ...docSnap.data() });
+    usersSnap.forEach(docSnap => {
+      members.push({ uid: docSnap.id, ...docSnap.data(), isAdmin: adminIds.has(docSnap.id) });
     });
-    // 이름 순 정렬
     members.sort((a, b) => (a.name || "").localeCompare(b.name || "", "ko"));
 
     if (members.length === 0) {
@@ -1391,35 +1500,52 @@ async function renderMembersList() {
 
       const info = document.createElement("div");
       info.className = "member-info";
+
       const nameEl = document.createElement("div");
       nameEl.className = "member-name";
       nameEl.textContent = m.name || "(이름 없음)";
+      if (m.isAdmin) {
+        const badge = document.createElement("span");
+        badge.className = "member-badge";
+        badge.textContent = "관리자";
+        nameEl.appendChild(badge);
+      }
       info.appendChild(nameEl);
 
       const meta = document.createElement("div");
       meta.className = "member-meta";
-      const idSpan = document.createElement("span");
-      idSpan.className = "member-id";
-      idSpan.textContent = m.id;
-      meta.appendChild(idSpan);
+      meta.textContent = m.email || "";
       info.appendChild(meta);
       row.appendChild(info);
 
-      const delBtn = document.createElement("button");
-      delBtn.className = "member-delete-btn";
-      delBtn.textContent = "탈퇴";
-      delBtn.addEventListener("click", async () => {
-        if (!confirm(`"${m.name}" 님을 탈퇴 처리하시겠습니까?\n\n주의: 이 회원이 추가한 기존 예약(이름)은 스케쥴에 그대로 남아있습니다.`)) return;
-        try {
-          await deleteDoc(doc(db, "users", m.id));
-          showToast("탈퇴 처리되었습니다");
-          await renderMembersList();
-        } catch (err) {
-          console.error(err);
-          alert("탈퇴 처리 중 오류가 발생했습니다.");
-        }
-      });
-      row.appendChild(delBtn);
+      if (!m.isAdmin) {
+        const delBtn = document.createElement("button");
+        delBtn.className = "member-delete-btn";
+        delBtn.textContent = "탈퇴";
+        delBtn.addEventListener("click", async () => {
+          if (!confirm(`"${m.name}" 님을 탈퇴 처리하시겠습니까?\n\n주의:\n- 이 회원의 프로필이 삭제되어 더 이상 로그인 시 앱에 들어올 수 없습니다.\n- 이 회원이 추가한 기존 예약(이름)은 스케쥴에 그대로 남아있습니다.\n- 이 사람은 나중에 다시 로그인하여 재가입할 수 있습니다.`)) return;
+          try {
+            await deleteDoc(doc(db, "users", m.uid));
+            // 회원 수 카운터 감소
+            try {
+              const counterRef = doc(db, "meta", "counters");
+              const counterSnap = await getDoc(counterRef);
+              const currentCount = counterSnap.exists() ? (counterSnap.data().memberCount || 0) : 0;
+              await setDoc(counterRef, {
+                memberCount: Math.max(0, currentCount - 1)
+              }, { merge: true });
+            } catch (cErr) {
+              console.warn("counter update failed", cErr);
+            }
+            showToast("탈퇴 처리되었습니다");
+            await renderMembersList();
+          } catch (err) {
+            console.error(err);
+            alert("탈퇴 처리 중 오류가 발생했습니다.");
+          }
+        });
+        row.appendChild(delBtn);
+      }
 
       wrap.appendChild(row);
     });
@@ -1432,12 +1558,7 @@ async function renderMembersList() {
   }
 }
 
-// ============================================
-// BOOT
-// ============================================
-if (!tryAutoLogin()) {
-  showLogin();
-}
+// Boot: onAuthStateChanged가 초기 상태 판단
 </script>
 </body>
 </html>
